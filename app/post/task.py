@@ -15,4 +15,5 @@ def sent_mail2(msg,email):
             recipient_list=[email],
             fail_silently=False,
         )
+    print("complete")
     return "Completed"
