@@ -6,7 +6,6 @@ from rest_framework import status
 from rest_framework.views import APIView
 from celery import current_app
 from .task import adding_task
-
 import logging as logz
 # Create your views here.
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -137,6 +136,9 @@ def get_userobj_byid_and_avalicheck(id,request):
     except CustomUser.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND), True
 
+'''
+simple test function
+'''
 
 
 @api_view(['GET','POST'])
@@ -144,4 +146,3 @@ def test_auth(request):
     if request.method == 'GET':
         # res = adding_task(6,2)
         return Response(status=status.HTTP_200_OK)
-        
