@@ -2,12 +2,9 @@ from django.contrib.auth import get_user_model
 from celery import shared_task
 from django.core.mail import send_mail
 from blog22 import settings
-# from django.utils import timezone
-# from datetime import timedelta
 
-'''
-task to sent mail
-'''
+'''Task to sent mail.'''
+
 
 @shared_task
 def sent_mail2(msg,email):
@@ -19,8 +16,3 @@ def sent_mail2(msg,email):
             fail_silently=False,
         )
     return "Completed"
-      
-# @shared_task
-# def test(msg,email):
-#     print(msg,email)
-#     return "Done"

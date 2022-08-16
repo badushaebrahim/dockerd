@@ -76,7 +76,7 @@ class user_crud(APIView):
             return Response(serial.data,status=status.HTTP_202_ACCEPTED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
     
-    def delete(self,request,id,*args,**kwargs):
+    def delete(self, request, id):
         try:
             userdatas= CustomUser.objects.get(pk=id)
             logz.info("get user data")
