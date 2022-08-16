@@ -65,8 +65,6 @@ class user_crud(APIView):
             return serial
         logz.info("get user data sent")
         return Response(serial.data,status=status.HTTP_200_OK)
-        
-    
 
     def put(self,request,id,*args,**kwargs):
         userdatas= CustomUser.objects.get(pk=id)
@@ -145,5 +143,5 @@ def get_userobj_byid_and_avalicheck(id,request):
 @api_view(['GET','POST'])
 def test_auth(request):
     if request.method == 'GET':
-        res = adding_task(6,2)
-        return Response(res,status=status.HTTP_200_OK)
+        # res = adding_task(6,2)
+        return Response(status=status.HTTP_200_OK)
