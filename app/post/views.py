@@ -12,7 +12,7 @@ from account.models import CustomUser
 from .models import comment, posts
 from .serializer import commentserializer, postserializer, createpostserializer, postserializer_byid, commentgetserialiser
 from account.serializer import loginserializer
-from .task import sent_mail2, test
+from .task import sent_mail2
 # Create your views here.
 
 
