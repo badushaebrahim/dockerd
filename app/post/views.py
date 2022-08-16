@@ -4,21 +4,22 @@ from pstats import Stats
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import render
-from rest_framework.decorators import api_view,authentication_classes,permission_classes
+from rest_framework.decorators import api_view,authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from account.models import CustomUser
 from .models import comment, posts
-from .serializer import commentserializer, postserializer,createpostserializer,postserializer_byid,commentgetserialiser
+from .serializer import commentserializer, postserializer, createpostserializer, postserializer_byid, commentgetserialiser
 from account.serializer import loginserializer
-from .task import sent_mail2,test
+from .task import sent_mail2, test
 # Create your views here.
 
 
 '''
 to get all post and comments
 '''
+
 @api_view(['GET'])
 def get_all_post(request):
     if request.method == 'GET':
@@ -88,14 +89,14 @@ class post_rud(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self,request,id,*args,**kwargs):
+    def get(self, request, id):
         errrors = False
         serial ,errors = get_seriallizer_of_post(id,request)
         if errors == True:
             return serial
         return Response(serial.data)
-    
-    def put(self,request,id,*args,**kwargs):
+   
+    def put(self, request, id):
         errors = False
         serial , errors = get_model_of_post(id,request)
         if errors == True:
@@ -108,23 +109,23 @@ class post_rud(APIView):
             print("invalid data",ser.error_messages)
             return Response(status= status.HTTP_400_BAD_REQUEST)
 
-    def delete(self,request,id,*args,**kwargs):
+    def delete(self, request, id):
         errors =False
         serial,errors = get_model_of_post(id,request)
         if errors == True:
             return serial
-        
+      
         serial.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
         
 
 
-
-
 '''
-function that check if user is owner of the post and return serializer for read
+function that check if user is owner of the post 
+and return serializer for read
 '''
-def get_seriallizer_of_post(id,request):
+
+def get_seriallizer_of_post(id, request):
     try:
         postdata = posts.objects.get(pk=id)
         serial  =  postserializer_byid(postdata)
@@ -136,13 +137,13 @@ def get_seriallizer_of_post(id,request):
             if str(request.user) == userserial.data["first_name"]:
                 return serial,False
             print("else")
-            return Response(status=status.HTTP_403_FORBIDDEN),True
+            return Response("Not Authorized",status=status.HTTP_403_FORBIDDEN),True
         except CustomUser.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND),True
+            return Response("invalid user /user not found",status=status.HTTP_404_NOT_FOUND),True
 
 
     except posts.DoesNotExist:
-        return Response("invalid user /user not found",status=status.HTTP_404_NOT_FOUND),True
+        return Response("invalid post /post not found",status=status.HTTP_404_NOT_FOUND),True
 
 '''
 function to check if user is owner of the 
@@ -186,8 +187,9 @@ def make_comment(request):
                 print(request.data["ofpost"])
                 postobj = posts.objects.get(pk = request.data["ofpost"])
                 postser = postserializer(postobj)
-
-                if str(request.user) == ser.data["first_name"]:
+                print("req",str(request.user))
+                print("ser",str(ser.data["first_name"]))
+                if str(request.user) == str(ser.data["first_name"]):
                     if newcommentserial.is_valid():
                         newcommentserial.save()
                         sent_mail2.delay("user comented on your post ",ser.data["email"])
@@ -196,18 +198,18 @@ def make_comment(request):
                         return Response(newcommentserial.data,status=status.HTTP_200_OK)
                         
                     # print(newcommentserial.error_messages)
-
-                return Response( newcommentserial.error_messages, status=status.HTTP_400_BAD_REQUEST)
+                # print("200 here")
+                return Response( newcommentserial.error_messages, status=status.HTTP_403_FORBIDDEN)
             except posts.DoesNotExist:
                 return Response(postser.error_messages,status=status.HTTP_404_NOT_FOUND)
         except CustomUser.DoesNotExist:
             return Response(loginserializer.error_messages, status=status.HTTP_404_NOT_FOUND)
 
+
 '''
 comment class to get update and delete
 comment by the on who created it
 '''
-
 
 class commentsclass(APIView):
     authentication_classes = [TokenAuthentication]
@@ -219,32 +221,32 @@ class commentsclass(APIView):
             return serial
         return Response(serial.data,status=status.HTTP_200_OK)
     
-    def put(self,request,id,*args,**kwargs):
+    def put(self, request, id, *args, **kwargs):
         errors = False
         serial , errors = get_model_of_comment(id,request)
         if errors == True:
             return serial
         else :
-            ser = commentgetserialiser(serial,data=request.data)
+            ser = commentgetserialiser(serial, data=request.data)
             if ser.is_valid():
                 ser.save()
-                return Response(ser.data,status=status.HTTP_200_OK)
+                return Response(ser.data, status=status.HTTP_200_OK)
             print("invalid data",ser.error_messages)
             return Response(status= status.HTTP_400_BAD_REQUEST)
     
-    def delete(self,request,id,*args,**kwargs):
+    def delete(self, request, id, *args, **kwargs):
         errors = False
-        serial , errors = get_model_of_comment(id,request)
+        serial , errors = get_model_of_comment(id, request)
         if errors == True:
             return serial
         
         serial.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)    
-    
 '''
 function that return commnet serializer if the 
 user is autheorized
 '''
+
 def get_serializer_of_commnet(id,request):
     try:
         commnetdata = comment.objects.get(pk = id)
@@ -253,22 +255,22 @@ def get_serializer_of_commnet(id,request):
             user = CustomUser.objects.get(id = int(serial.data["created_by"]))
             userserial  = loginserializer(user)
             if str(request.user) == userserial.data["first_name"]:
-                return serial,False
-                print("else")
-            return Response(status=status.HTTP_403_FORBIDDEN),True
+                return serial, False
+            print("else")
+            return Response(status=status.HTTP_403_FORBIDDEN), True
         except CustomUser.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND),True
+            return Response(status=status.HTTP_404_NOT_FOUND), True
             
         
         
     except comment.DoesNotExist:
-            return Response("no ceommnet of said id",status=status.HTTP_404_NOT_FOUND),True
-        
+            return Response("no ceommnet of said id", status=status.HTTP_404_NOT_FOUND), True
+
 '''
 function return model of comment if 
 the user is autheorized
-'''   
-        
+'''
+
 def get_model_of_comment(id,request):
     try:
         postdata = comment.objects.get(pk=id)
@@ -277,13 +279,13 @@ def get_model_of_comment(id,request):
             userdata= CustomUser.objects.get(pk = serial.data["created_by"])
             userserial = loginserializer(userdata)
             if str(request.user) == userserial.data["first_name"]:
-                return postdata,False
+                return postdata, False
             print("else")
-            return Response(status=status.HTTP_403_FORBIDDEN),True
+            return Response(status=status.HTTP_403_FORBIDDEN), True
         except CustomUser.DoesNotExist:
             print("user not found")
-            return Response(status=status.HTTP_404_NOT_FOUND),True
+            return Response(status=status.HTTP_404_NOT_FOUND), True
 
     except posts.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND),True
+        return Response(status=status.HTTP_404_NOT_FOUND), True
         

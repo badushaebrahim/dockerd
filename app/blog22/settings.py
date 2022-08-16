@@ -182,11 +182,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'account.CustomUser'
 
 # celery
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'India/Kolkata'
+CELERY_TIMEZONE = 'Asia/Kolkata'
 CELERY_TASK_SERIALIZER = 'json'
 
 # smtp
@@ -195,12 +195,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_HOST_USER ='badushaebrahim62@gmail.com'
-EMAIL_HOST_PASSWORD = "ddwytlhmkztrwuna"
+EMAIL_HOST_PASSWORD = os.environ.get('smtp_password')
 DEFAULT_FROM_EMAIL = 'Celery <badushaebrahim62@gmail.com>'
 
 
 
 
-
-
-# ddwytlhmkztrwuna
