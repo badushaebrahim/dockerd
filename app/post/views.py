@@ -90,7 +90,7 @@ class post_rud(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, id):
-        errrors = False
+        errors = False
         serial ,errors = get_seriallizer_of_post(id,request)
         if errors == True:
             return serial
