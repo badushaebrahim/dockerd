@@ -159,10 +159,10 @@ def get_model_of_post(id,request):
             userserial = loginserializer(userdata)
             if str(request.user) == userserial.data["first_name"]:
                 return postdata,False
-            print("else")
+            # print("else")
             return Response(status=status.HTTP_403_FORBIDDEN),True
         except CustomUser.DoesNotExist:
-            print("user not found")
+            # print("user not found")
             return Response(status=status.HTTP_404_NOT_FOUND),True
 
     except posts.DoesNotExist:
@@ -180,15 +180,15 @@ def make_comment(request):
     if request.method == 'POST':
         newcommentserial = commentserializer(data= request.data)
         try:
-            print(request.data["created_by"])
+            # print(request.data["created_by"])
             k= CustomUser.objects.get(pk=request.data["created_by"])
             ser =  loginserializer(k)
             try:
-                print(request.data["ofpost"])
+                # print(request.data["ofpost"])
                 postobj = posts.objects.get(pk = request.data["ofpost"])
                 postser = postserializer(postobj)
-                print("req",str(request.user))
-                print("ser",str(ser.data["first_name"]))
+                # print("req",str(request.user))
+                # print("ser",str(ser.data["first_name"]))
                 if str(request.user) == str(ser.data["first_name"]):
                     if newcommentserial.is_valid():
                         newcommentserial.save()
@@ -231,7 +231,7 @@ class commentsclass(APIView):
             if ser.is_valid():
                 ser.save()
                 return Response(ser.data, status=status.HTTP_200_OK)
-            print("invalid data",ser.error_messages)
+            # print("invalid data",ser.error_messages)
             return Response(status= status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, id, *args, **kwargs):
@@ -256,7 +256,7 @@ def get_serializer_of_commnet(id,request):
             userserial  = loginserializer(user)
             if str(request.user) == userserial.data["first_name"]:
                 return serial, False
-            print("else")
+            # print("else")
             return Response(status=status.HTTP_403_FORBIDDEN), True
         except CustomUser.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND), True
@@ -280,10 +280,10 @@ def get_model_of_comment(id,request):
             userserial = loginserializer(userdata)
             if str(request.user) == userserial.data["first_name"]:
                 return postdata, False
-            print("else")
+            # print("else")
             return Response(status=status.HTTP_403_FORBIDDEN), True
         except CustomUser.DoesNotExist:
-            print("user not found")
+            # print("user not found")
             return Response(status=status.HTTP_404_NOT_FOUND), True
 
     except posts.DoesNotExist:
