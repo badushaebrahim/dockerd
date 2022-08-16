@@ -115,10 +115,10 @@ def get_userobj_byid(id,request):
         else:
             # print('else')
             Response(status=status.HTTP_403_FORBIDDEN)
-            return Response(status=status.HTTP_403_FORBIDDEN),True
+            return Response(status=status.HTTP_403_FORBIDDEN), True
     except CustomUser.DoesNotExist:
             # print("user not found")
-            return Response(status=status.HTTP_404_NOT_FOUND),True
+            return Response(status=status.HTTP_404_NOT_FOUND), True
     
 
 def get_userobj_byid_and_avalicheck(id,request):
@@ -129,14 +129,13 @@ def get_userobj_byid_and_avalicheck(id,request):
         # print("req",request.user)
         # print("ser",serial.data["username"])
         if str(request.user) == str(serial.data["first_name"]):
-            return serial,False
+            return serial, False
         else:
             # print('else')
-            return Response(status=status.HTTP_403_FORBIDDEN),True
+            return Response(status=status.HTTP_403_FORBIDDEN), True
         
     except CustomUser.DoesNotExist:
-            # print("user not found")
-            return Response(status=status.HTTP_404_NOT_FOUND),True
+        return Response(status=status.HTTP_404_NOT_FOUND), True
 
 
 
@@ -145,3 +144,4 @@ def test_auth(request):
     if request.method == 'GET':
         # res = adding_task(6,2)
         return Response(status=status.HTTP_200_OK)
+        
