@@ -3,6 +3,7 @@
 
 ## to run this conatainers
 also add .env.dev  file with postgress creds , smptp cred for gmail
+	
 	docker-compose build
 	docker-compose up
 
