@@ -161,9 +161,26 @@ STATIC_URL = '/static/'
 #         },
 #     },
 # }
-
-
-
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'WARNING',
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+#             'propagate': False,
+#         },
+#     },
+# }
 
 
 
@@ -186,7 +203,7 @@ CELERY_BROKER_URL = 'redis://redis:6379'
 CELERY_RESULT_BACKEND = 'redis://redis:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Kolkata'
+# CELERY_TIMEZONE = 'India/Kolkata'
 CELERY_TASK_SERIALIZER = 'json'
 
 # smtp
@@ -195,9 +212,12 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_HOST_USER ='badushaebrahim62@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('smtp_password')
+EMAIL_HOST_PASSWORD = os.environ.get("SMTP_PASSWORD")
 DEFAULT_FROM_EMAIL = 'Celery <badushaebrahim62@gmail.com>'
 
 
 
 
+
+
+# ddwytlhmkztrwuna

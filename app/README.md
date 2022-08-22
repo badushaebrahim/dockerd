@@ -10,4 +10,4 @@
 
 
 ## how to fix broken packages
-	https://linuxhint.com/apt_get_fix_missing_broken_packages/# dockerizeddjango
+	https://linuxhint.com/apt_get_fix_missing_broken_packages/

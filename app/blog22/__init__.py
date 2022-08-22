@@ -1,3 +1,3 @@
 from .celery import celery_app
 
-__all__ = ('blog22')
+__all__ = ('blog22',)
