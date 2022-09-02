@@ -48,11 +48,11 @@ services:
       - redis
       - app
 
-  web-ser:
-    build:
-      context: client/
-    # command: "npm i && npm start"
-    ports:
-      - "3001:3000"
+  # web-ser:
+  #   build:
+  #     context: client/
+  #   # command: "npm i && npm start"
+  #   ports:
+  #     - "3001:3000"
 volumes:
   pgdata:
