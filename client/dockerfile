@@ -1,0 +1,6 @@
+FROM bayesimpact/react-base:latest
+
+COPY . client/
+RUN ls
+WORKDIR /client/
+RUN ls

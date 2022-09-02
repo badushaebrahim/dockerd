@@ -47,5 +47,20 @@ services:
       - db
       - redis
       - app
+  react-app:
+    image: 
+      build: 
+        context: /client
+        dockerfile: /client.dockerfile
+    command: "npm start"
+
+    ports:
+      - "81:5000"
+    depends_on:
+      - db
+      - redis
+      - app
+      - celery
+
 volumes:
   pgdata:
