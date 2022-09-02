@@ -1,6 +1,7 @@
-FROM bayesimpact/react-base:latest
+FROM node:alpine
 
 COPY . client/
 RUN ls
 WORKDIR /client/
-RUN ls
+RUN npm i
+CMD ["npm", "start"]
