@@ -26,7 +26,7 @@ class CustomAuthToken(ObtainAuthToken):
     def post(self, request):
         '''login'''
         try:
-            print(request.data)
+            print("aa",request.data)
             print(request.data["email"])
             print(request.data["password"])
             user_datas= CustomUser.objects.get(
@@ -45,7 +45,7 @@ class CustomAuthToken(ObtainAuthToken):
             'token': token.key,
             'user_id':serializer.data["id"]
         }
-        return Response({"msg":"User not found"},status=status.HTTP_200_OK,data=data)
+        return Response(status=status.HTTP_200_OK,data=data)
 
 class UserRegister(APIView):
     '''this view is used to register and create a new user

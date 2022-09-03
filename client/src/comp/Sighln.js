@@ -44,7 +44,7 @@ export default function SignIn() {
 	
     })
     .then(function (response) {
-	alert(JSON.stringify(response))
+	alert(JSON.stringify(response.data))
   console.log(response.data)
     })
     .catch(function (error) {
