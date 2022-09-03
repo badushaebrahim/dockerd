@@ -26,11 +26,14 @@ class CustomAuthToken(ObtainAuthToken):
     def post(self, request):
         '''login'''
         try:
+            print(request.data)
+            print(request.data["email"])
+            print(request.data["password"])
             user_datas= CustomUser.objects.get(
                 email= request.data['email'],
             password = request.data['password']
             )
-        except user_datas.DoesNotExist:
+        except CustomUser.DoesNotExist:
             logz.warning("user not found ")
             # print("user not found")
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -42,7 +45,7 @@ class CustomAuthToken(ObtainAuthToken):
             'token': token.key,
             'user_id':serializer.data["id"]
         }
-        return Response(status=status.HTTP_200_OK,data=data)
+        return Response({"msg":"User not found"},status=status.HTTP_200_OK,data=data)
 
 class UserRegister(APIView):
     '''this view is used to register and create a new user
@@ -56,9 +59,9 @@ class UserRegister(APIView):
         if serial.is_valid():
             logz.info("data set and saved responded")
             serial.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response({"msg":"User created"},status=status.HTTP_200_OK)
         logz.warning("bad data error")
-        return Response(serial.errors,status=status.HTTP_400_BAD_REQUEST)
+        return Response({"msg":serial.errors},status=status.HTTP_400_BAD_REQUEST)
 
 class UserCrud(APIView):
     '''view is used for user to update delete  or update there
@@ -112,7 +115,7 @@ def get_usermodel_byid_and_avalicheck(id, request):
         logz.warning("un authorized")
         return Response(status=status.HTTP_403_FORBIDDEN), True
 
-    except user_datas.DoesNotExist:
+    except CustomUser.DoesNotExist:
         logz.warning("user not found")
         return Response("User not found", status=status.HTTP_404_NOT_FOUND), True
 
@@ -129,7 +132,7 @@ def get_userobj_byid_and_avalicheck(id, request):
             return serial, False
         return Response(status=status.HTTP_403_FORBIDDEN), True
 
-    except user_datas.DoesNotExist:
+    except CustomUser.DoesNotExist:
         logz.warning("user not found")
         return Response("User not found", status=status.HTTP_404_NOT_FOUND), True
 

@@ -10,6 +10,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import Blogcard from './comp/Blogcard';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
       {/* <Route path="/" element={<App />} /> */}
       <Route path="login" element={<SignIn/>} />
       <Route path="register" element={<Register/>} />
+      <Route path='rr' element={<Blogcard/>}/>
     </Routes>
   </BrowserRouter>,
   </React.StrictMode>

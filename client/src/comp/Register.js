@@ -13,23 +13,24 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { useNavigate } from "react-router-dom";
+// function Copyright(props) {
+//   return (
+//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
+//       {'Copyright © '}
+//       <Link color="inherit" href="https://mui.com/">
+//         Your Website
+//       </Link>{' '}
+//       {new Date().getFullYear()}
+//       {'.'}
+//     </Typography>
+//   );
+// }
 
 const theme = createTheme();
 
 export default function Register() {
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -39,22 +40,22 @@ export default function Register() {
 //     });
     const url="http://localhost:8000/usereg/"
     axios.post(url, {
-      mode: "cors",
-	data: {
 		username:data.get('uname'),
 		first_name:data.get('fname'),
 		last_name:data.get('lname'),
 		phone_number :data.get('phone'),
 		email:data.get('email'),
 		password:data.get("password")
-	}
     })
     .then(function (response) {
-	alert(response)
+	alert(response.data)
 	console.log(response.data)
   alert("hit")
+  navigate('/login');
     })
     .catch(function (error) {
+      alert(JSON.stringify(error))
+      console.log(JSON.stringify(error))
     })
 
   };
