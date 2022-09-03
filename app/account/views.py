@@ -51,6 +51,8 @@ class UserRegister(APIView):
         '''create user'''
         logz.info("get user data to creaet user")
         serial = LoginSerializer(data=request.data)
+        print(request.data)
+        logz.warning(request.data)
         if serial.is_valid():
             logz.info("data set and saved responded")
             serial.save()

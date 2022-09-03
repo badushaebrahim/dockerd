@@ -39,7 +39,8 @@ export default function Register() {
 //     });
     const url="http://localhost:8000/usereg/"
     axios.post(url, {
-	params: {
+      mode: "cors",
+	data: {
 		username:data.get('uname'),
 		first_name:data.get('fname'),
 		last_name:data.get('lname'),
@@ -51,6 +52,7 @@ export default function Register() {
     .then(function (response) {
 	alert(response)
 	console.log(response.data)
+  alert("hit")
     })
     .catch(function (error) {
     })
