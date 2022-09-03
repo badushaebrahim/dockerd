@@ -38,10 +38,10 @@ export default function SignIn() {
       password: data.get('password'),
     });
     const url="http://localhost:8000/login/"
-    axios.post(url, {
-	params: {
-		email:data.get('email'),
-		password:data.get("password")
+    axios.post(url, { mode: "cors",
+	data: {
+		"email":data.get('email'),
+		"password":data.get("password")
 	}
     })
     .then(function (response) {
