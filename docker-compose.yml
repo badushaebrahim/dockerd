@@ -4,6 +4,7 @@ services:
   app:
     build:
       context: .
+    restart: always
     ports:
       - "8000:8000"
     volumes:
@@ -48,11 +49,16 @@ services:
       - redis
       - app
 
-  # web-ser:
+  # web-ser:  #for dockerizing react app
   #   build:
   #     context: client/
   #   # command: "npm i && npm start"
   #   ports:
-  #     - "3001:3000"
+  #   #system port :container 
+  #     - "3000:3000"
+  #   depends_on:
+  #     - db
+  #     - redis
+  #     - app
 volumes:
   pgdata:

@@ -11,10 +11,12 @@ import {
   Route,
 } from "react-router-dom";
 import Blogcard from './comp/Blogcard';
-
+import { Provider } from 'react-redux'
+import store from './utils/store'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+  <Provider store={store}>
    <BrowserRouter>
     <Routes>
       {/* <Route path="/" element={<App />} /> */}
@@ -22,7 +24,8 @@ root.render(
       <Route path="register" element={<Register/>} />
       <Route path='rr' element={<Blogcard/>}/>
     </Routes>
-  </BrowserRouter>,
+  </BrowserRouter>
+  </Provider>
   </React.StrictMode>
 );
 

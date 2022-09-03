@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { legacy_createStore } from '@reduxjs/toolkit';
 
 function Copyright(props) {
   return (
@@ -49,6 +50,7 @@ export default function SignIn() {
     })
     .catch(function (error) {
       console.log(error)
+      legacy_createStore("yes")
     })
 
   };
